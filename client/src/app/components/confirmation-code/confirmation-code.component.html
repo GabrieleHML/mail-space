@@ -1,0 +1,38 @@
+<div class="flex justify-center items-center h-full">
+  <form class="w-full max-w-sm" [formGroup]="form" (ngSubmit)="onConfirmSignUp()">
+    <h4 class="text-center text-3xl font-bold mb-6">Inserisci il codice di verifica</h4>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" placeholder="Username" formControlName="username" required />
+      <mat-icon matSuffix>person</mat-icon>
+      @if (form.get('username')?.hasError('required')) {
+        <mat-error>Username obbligatorio</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Codice di conferma</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="codice di conferma"
+        formControlName="code"
+        required
+      />
+      <mat-icon matSuffix>confirmation_number</mat-icon>
+      @if (form.get('code')?.hasError('required')) {
+        <mat-error>Il codice di conferma è obbligatorio</mat-error>
+      }
+    </mat-form-field>
+    <div class="flex justify-end">
+      <button
+        mat-flat-button
+        color="primary"
+        class="button-color"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Verifica
+      </button>
+    </div>
+  </form>
+</div>

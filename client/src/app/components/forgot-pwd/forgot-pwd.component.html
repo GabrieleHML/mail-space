@@ -1,0 +1,96 @@
+<div class="flex justify-center items-center h-full p-6">
+  <div class="w-full max-w-sm flex flex-col gap-6 h-full">
+    <h4 class="text-center text-3xl font-bold mb-6">Recupero password</h4>
+
+    @if (step === 1) {
+      <form
+        class="w-full flex flex-col gap-6"
+        [formGroup]="requestForm"
+        (ngSubmit)="onRequestCode()"
+      >
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" placeholder="Email" formControlName="email" required />
+          <mat-icon matSuffix>email</mat-icon>
+          @if (requestForm.get('email')?.hasError('required')) {
+            <mat-error>Email obbligatoria</mat-error>
+          }
+          @if (requestForm.get('email')?.hasError('email')) {
+            <mat-error>Email non valida</mat-error>
+          }
+        </mat-form-field>
+        <div class="flex justify-end">
+          <button
+            mat-flat-button
+            color="primary"
+            class="button-color"
+            type="submit"
+            [disabled]="requestForm.invalid"
+          >
+            Ricevi codice
+          </button>
+        </div>
+      </form>
+    }
+
+    @if (step === 2) {
+      <form class="w-full flex flex-col gap-6" [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Codice di conferma</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Codice di conferma"
+            formControlName="code"
+            required
+          />
+          <mat-icon matSuffix>confirmation_number</mat-icon>
+          @if (resetForm.get('code')?.hasError('required')) {
+            <mat-error>Codice di conferma obbligatorio</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="w-full mb-36" appearance="outline">
+          <mat-label>Nuova password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Nuova password"
+            formControlName="newPassword"
+            required
+          />
+          <mat-icon matSuffix>lock</mat-icon>
+          <mat-hint class="text-sm mt-4">
+            La password deve contenere:
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+              <li>Almeno 8 caratteri</li>
+              <li>Almeno un numero (0-9)</li>
+              <li>Almeno un carattere speciale (!&#64;#$%^&*)</li>
+              <li>Almeno una lettera maiuscola (A-Z)</li>
+              <li>Almeno una lettera minuscola (a-z)</li>
+            </ul>
+          </mat-hint>
+          @if (resetForm.get('newPassword')?.hasError('required')) {
+            <mat-error>Nuova password obbligatoria</mat-error>
+          }
+          @if (resetForm.get('newPassword')?.hasError('minlength')) {
+            <mat-error>La password deve essere di almeno 8 caratteri</mat-error>
+          }
+          @if (resetForm.get('newPassword')?.hasError('pattern')) {
+            <mat-error>La password non soddisfa tutti i requisiti</mat-error>
+          }
+        </mat-form-field>
+        <div class="flex justify-end">
+          <button
+            mat-flat-button
+            color="primary"
+            class="button-color"
+            type="submit"
+            [disabled]="resetForm.invalid"
+          >
+            Invia
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>

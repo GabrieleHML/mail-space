@@ -1,0 +1,40 @@
+<div class="flex justify-center items-center h-full">
+  <form class="w-full max-w-sm" [formGroup]="form" (submit)="onSignUp()">
+    <h2 class="text-center text-3xl font-bold mb-6">Registrati</h2>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" placeholder="Username" formControlName="username" />
+      <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" placeholder="Email" formControlName="email" />
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Password" formControlName="password" />
+      <mat-icon matSuffix>vpn_key</mat-icon>
+      <mat-hint
+        >Almeno 8 caratteri, con una maiuscola, una minuscola, un numero e un carattere speciale
+        (!&#64;#$%^&*).</mat-hint
+      >
+    </mat-form-field>
+    <mat-form-field class="w-full" style="margin-top: 40px" appearance="outline">
+      <mat-label>Conferma Password</mat-label>
+      <input matInput type="password" placeholder="Conferma Password" formControlName="confirm" />
+      <mat-icon matSuffix>check</mat-icon>
+    </mat-form-field>
+    <div class="flex justify-end">
+      <button
+        mat-flat-button
+        color="primary"
+        class="button-color"
+        type="submit"
+        [disabled]="!form.valid"
+      >
+        Registrati
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,96 @@
+<div class="flex flex-col min-h-screen">
+  <mat-toolbar class="bg-blue-500 text-white">
+    <div class="flex items-center ml-2.5">
+      @if (auth.isLoggedIn() && !router.url.includes('/profile')) {
+        <button
+          mat-icon-button
+          (click)="toggleSidenav()"
+          style="margin-right: 16px"
+          aria-label="Mostra o nascondi le cartelle"
+        >
+          <mat-icon>{{ sidenavOpened ? 'close' : 'menu' }}</mat-icon>
+        </button>
+      }
+      @if (auth.isLoggedIn()) {
+        <img
+          src="logo.png"
+          alt="MailSpace Logo"
+          class="h-40 mt-6 cursor-pointer"
+          [routerLink]="['/mails']"
+        />
+      } @else {
+        <img src="logo.png" alt="MailSpace Logo" class="h-40 mt-6" />
+      }
+    </div>
+
+    <span class="flex-1"></span>
+
+    <div class="flex items-center mr-5">
+      @if (auth.isLoggedIn()) {
+        <div role="button" [matMenuTriggerFor]="menu" class="flex items-center cursor-pointer">
+          <span class="mr-2">{{ auth.user()?.username }}</span>
+          <button matIconButton>
+            <mat-icon>person</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item [routerLink]="['/profile']">
+              <mat-icon>account_circle</mat-icon>
+              <span>Profilo</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <span>Esci</span>
+              <mat-icon>logout</mat-icon>
+            </button>
+          </mat-menu>
+        </div>
+      } @else {
+        <button mat-button color="primary" (click)="openConfirmationDialog()">
+          Conferma Account
+        </button>
+      }
+    </div>
+  </mat-toolbar>
+
+  <div class="flex flex-col flex-grow">
+    <div class="flex-grow flex items-center justify-center">
+      @if (!auth.isLoggedIn()) {
+        <img src="slogan.png" alt="MailSpace Logo" style="padding-left: 5%" />
+      }
+      <div class="w-full" [ngClass]="{ 'mail-viewer-container': router.url.includes('/mails') }">
+        <router-outlet></router-outlet>
+        @if (router.url === '/') {
+          <div class="home-page-container p-4 flex justify-center" style="margin-right: 200px">
+            <mat-card class="w-full max-w-sm p-6">
+              @if (showLogin) {
+                <app-login></app-login>
+                <div class="text-center mt-4">
+                  <button type="button" (click)="toggleForm()" class="hover:underline">
+                    Non registrato? Registrati
+                  </button>
+                </div>
+                <div class="text-center mt-2">
+                  <button type="button" class="hover:underline" (click)="openForgotPwdDialog()">
+                    Hai dimenticato la password?
+                  </button>
+                </div>
+              } @else {
+                <app-register></app-register>
+                <div class="text-center mt-4">
+                  <button type="button" (click)="toggleForm()" class="hover:underline">
+                    Hai già un account? Accedi
+                  </button>
+                </div>
+              }
+            </mat-card>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2025 Mail Space</p>
+    </div>
+  </footer>
+</div>

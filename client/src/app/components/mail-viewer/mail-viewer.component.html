@@ -1,0 +1,228 @@
+<div style="display: flex; min-height: 100vh">
+  <!-- Left: folders side panel -->
+  <mat-sidenav-container style="height: 100vh">
+    <mat-sidenav #sidenav mode="side" style="width: 300px">
+      <div style="padding-top: 20px; display: flex; flex-direction: column; align-items: center">
+        <div style="display: flex; justify-content: space-between; width: 80%; margin-top: 20px">
+          <h5>Cartelle</h5>
+          <button mat-icon-button (click)="openAddFolderDialog()" matTooltip="Aggiungi cartella">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        @if (isLoadingFolders) {
+          <mat-spinner style="margin-top: 30px; margin-left: 30px" diameter="30"></mat-spinner>
+        }
+
+        @if (!isLoadingFolders && folders.length > 0) {
+          <mat-nav-list style="margin-top: 30px; padding: 0">
+            @for (folder of folders; track folder.id) {
+              <a
+                mat-list-item
+                tabindex="0"
+                (click)="openFolder(folder)"
+                (keydown.enter)="openFolder(folder)"
+                [class.active-folder]="selectedFolder?.id === folder.id"
+                class="folder-list-item"
+              >
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                  <span class="folder-name">{{ folder.name }}</span>
+                  <button
+                    class="button-remove"
+                    mat-icon-button
+                    (click)="deleteFolder(folder); $event.stopPropagation()"
+                    [attr.aria-label]="'Elimina cartella ' + folder.name"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                <div class="mat-focus-indicator"></div>
+              </a>
+            }
+          </mat-nav-list>
+        }
+
+        @if (!isLoadingFolders && folders.length === 0) {
+          <div style="text-align: center; color: grey; font-size: 1.2em; margin: 20px 0">
+            Nessuna cartella
+          </div>
+        }
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content></mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!-- Right: search, tag filters and e-mail list -->
+  <div style="flex: 1; display: flex; flex-direction: column; margin-left: 5%">
+    <div class="content" style="padding: 16px; flex: 1; overflow-y: auto">
+      <div class="my-4 flex justify-between div-sopra align-items-center">
+        <div>
+          <button mat-fab extended class="button-add" [matMenuTriggerFor]="dropdownMenu">
+            <mat-icon>mail</mat-icon>
+            Aggiungi Mail
+          </button>
+          <mat-menu #dropdownMenu="matMenu">
+            <button mat-menu-item [routerLink]="['/add-mail']">da testo</button>
+            <button mat-menu-item (click)="fileInput.click()">da file .eml</button>
+          </mat-menu>
+          <input
+            #fileInput
+            type="file"
+            (change)="onFileSelected($event)"
+            accept=".eml"
+            style="display: none"
+          />
+        </div>
+
+        <app-search (filtersChange)="onSearch($event)"></app-search>
+      </div>
+
+      <div style="margin-top: 40px">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <div style="display: flex; align-items: center">
+            <h6>Filtra per Tag</h6>
+            <button
+              mat-icon-button
+              (click)="resetLabels()"
+              matTooltip="Rimuovi i filtri"
+              style="margin-left: 10px"
+            >
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center">
+            <mat-button-toggle-group
+              [value]="matchAll ? 'all' : 'any'"
+              (change)="onMatchModeChange($event.value)"
+            >
+              <mat-button-toggle value="any" matTooltip="Mail con ALMENO UN tag">
+                Unione
+              </mat-button-toggle>
+              <mat-button-toggle value="all" matTooltip="Mail con TUTTI i tag">
+                Intersezione
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+        <mat-chip-listbox [(ngModel)]="selectedLabels" (ngModelChange)="onLabelsChange()" multiple>
+          @for (label of labels; track label) {
+            <mat-chip-option [value]="label">{{ label }}</mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
+
+      <div class="div-sotto">
+        <div class="flex">
+          @if (selectedFolder) {
+            <button
+              style="margin-right: 10px"
+              mat-icon-button
+              (click)="closeFolder()"
+              matTooltip="Torna a tutte le email"
+            >
+              <mat-icon>undo</mat-icon>
+            </button>
+          }
+          <h5>{{ selectedFolder ? selectedFolder.name : 'Elenco email' }}</h5>
+        </div>
+
+        @if (isLoadingEmails) {
+          <mat-spinner diameter="50"></mat-spinner>
+        }
+        @if (!isLoadingEmails) {
+          <div>
+            <mat-toolbar
+              color="primary"
+              style="justify-content: space-between; padding: 10px; border-radius: 8px"
+            >
+              <div style="display: flex; align-items: center; gap: 10px">
+                <mat-checkbox
+                  [checked]="allSelected"
+                  (change)="toggleAllSelection($event.source.checked)"
+                  matTooltip="Seleziona tutto"
+                ></mat-checkbox>
+                <div class="add-to-folder-button">
+                  <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="folderMenu"
+                    [disabled]="selectedIds.size === 0"
+                    matTooltip="Aggiungi alla cartella"
+                  >
+                    <mat-icon>drive_file_move</mat-icon>
+                  </button>
+                  @if (selectedFolder) {
+                    <button
+                      mat-icon-button
+                      class="remove-from-folder-button hover-red"
+                      (click)="removeFromFolder()"
+                      [disabled]="selectedIds.size === 0"
+                      matTooltip="Rimuovi dalla cartella"
+                    >
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  }
+                  <button
+                    mat-icon-button
+                    (click)="deleteEmails()"
+                    class="hover-red"
+                    [disabled]="selectedIds.size === 0"
+                    matTooltip="Elimina"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-menu #folderMenu="matMenu">
+                    @for (folder of folders; track folder.id) {
+                      <button mat-menu-item (click)="addToFolder(folder)">{{ folder.name }}</button>
+                    }
+                  </mat-menu>
+                </div>
+              </div>
+              <div style="padding-top: 0">
+                <mat-paginator
+                  style="border-radius: 12px; overflow: hidden"
+                  [length]="emails.length"
+                  [pageSize]="pageSize"
+                  [pageIndex]="pageIndex"
+                  [pageSizeOptions]="[1, 5, 10, 25]"
+                  (page)="onPageChange($event)"
+                  aria-label="Select page"
+                >
+                </mat-paginator>
+              </div>
+            </mat-toolbar>
+            @if (paginatedEmails.length === 0) {
+              <div style="text-align: center; color: grey; font-size: 1.5em; margin: 20px 0">
+                {{ selectedFolder ? 'Nessuna email in questa cartella' : 'Nessuna email trovata' }}
+              </div>
+            }
+            @for (email of paginatedEmails; track email.id) {
+              <div style="padding-top: 20px; display: flex">
+                <mat-checkbox
+                  [checked]="selectedIds.has(email.id)"
+                  (change)="toggleEmailSelection(email.id, $event.checked)"
+                  style="margin-right: 10px"
+                ></mat-checkbox>
+                <mat-expansion-panel style="flex: 1">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>{{ email.sender || 'Mittente sconosciuto' }}</mat-panel-title>
+                    <mat-panel-description>{{
+                      email.subject || '(nessun oggetto)'
+                    }}</mat-panel-description>
+                  </mat-expansion-panel-header>
+                  @if (email.labels.length > 0) {
+                    <mat-chip-set class="email-labels" aria-label="Etichette dell'email">
+                      @for (label of email.labels; track label) {
+                        <mat-chip>{{ label }}</mat-chip>
+                      }
+                    </mat-chip-set>
+                  }
+                  <pre style="white-space: pre-wrap">{{ email.body }}</pre>
+                </mat-expansion-panel>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

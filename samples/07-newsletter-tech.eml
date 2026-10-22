@@ -1,0 +1,22 @@
+From: Tech Weekly <newsletter@techweekly.example>
+To: demo@example.com
+Subject: Tech Weekly #42: cloud, AI e sviluppo web
+Date: Fri, 14 Feb 2025 10:00:00 +0100
+Message-ID: <sample-07@mail-space.example>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+Benvenuto al numero 42 di Tech Weekly!
+
+In questo numero:
+
+1. Serverless o container? Una guida pratica per scegliere l'architettura
+   giusta per il tuo prossimo progetto cloud.
+2. Modelli linguistici in produzione: come ridurre latenza e costi.
+3. Le novità dell'ultima versione di Angular e cosa cambia per gli
+   sviluppatori.
+4. PostgreSQL: dieci indici che dovresti conoscere.
+
+Buona lettura e alla prossima settimana!
+La redazione di Tech Weekly

@@ -1,0 +1,53 @@
+<div class="flex flex-col h-[600px] p-6" style="padding-top: 50px; padding-bottom: 50px">
+  <form class="flex flex-col h-full" [formGroup]="resetPwdForm" (ngSubmit)="onSubmit()">
+    <h2 class="text-center text-3xl font-bold mb-8 pb-4">Modifica password</h2>
+
+    <div class="flex-grow flex flex-col justify-center" style="margin-bottom: 150px">
+      <mat-form-field class="w-full mb-6" appearance="fill">
+        <mat-label>Password attuale</mat-label>
+        <input matInput type="password" formControlName="oldPassword" required />
+        <mat-icon matSuffix>lock</mat-icon>
+        @if (resetPwdForm.get('oldPassword')?.hasError('required')) {
+          <mat-error> Password attuale obbligatoria </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Nuova Password</mat-label>
+        <input matInput type="password" formControlName="newPassword" required />
+        <mat-icon matSuffix>lock</mat-icon>
+        <mat-hint class="text-sm mt-4">
+          La password deve contenere:
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Almeno 8 caratteri</li>
+            <li>Almeno un numero (0-9)</li>
+            <li>Almeno un carattere speciale (!&#64;#$%^&*)</li>
+            <li>Almeno una lettera maiuscola (A-Z)</li>
+            <li>Almeno una lettera minuscola (a-z)</li>
+          </ul>
+        </mat-hint>
+        @if (resetPwdForm.get('newPassword')?.hasError('required')) {
+          <mat-error> Nuova password obbligatoria </mat-error>
+        }
+        @if (resetPwdForm.get('newPassword')?.hasError('minlength')) {
+          <mat-error> La password deve essere di almeno 8 caratteri </mat-error>
+        }
+        @if (resetPwdForm.get('newPassword')?.hasError('pattern')) {
+          <mat-error> La password non soddisfa tutti i requisiti </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="mt-8 flex justify-end">
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="resetPwdForm.invalid"
+        class="py-2 px-6 button-color"
+      >
+        Modifica Password
+      </button>
+    </div>
+  </form>
+</div>

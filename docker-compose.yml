@@ -1,0 +1,58 @@
+# Runs Mail Space locally: PostgreSQL, the API and the web app on http://localhost:8080
+#
+# Amazon Cognito and Google Gemini are external services: configure them in server/.env
+# (copy server/.env.example). The database settings below override the ones in that file.
+#
+#   docker compose up --build        # whole application
+#   docker compose up -d db          # only the database, for `npm run dev` and the tests
+name: mail-space
+
+services:
+  db:
+    build: ./db
+    environment:
+      POSTGRES_DB: mailspace
+      POSTGRES_USER: mailspace
+      POSTGRES_PASSWORD: mailspace
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U mailspace -d mailspace']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./server
+    env_file: ./server/.env
+    environment:
+      DB_HOST: db
+      DB_PORT: '5432'
+      DB_NAME: mailspace
+      DB_USER: mailspace
+      DB_PASSWORD: mailspace
+      DB_SSL: 'false'
+      # NGINX runs in another container of the private Docker network
+      TRUST_PROXY: uniquelocal
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/api/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build: ./client
+    ports:
+      - '8080:80'
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  db-data:

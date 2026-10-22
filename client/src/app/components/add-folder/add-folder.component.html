@@ -1,0 +1,24 @@
+<div class="flex justify-center items-center h-full">
+  <form class="w-full max-w-sm" [formGroup]="form" (submit)="onAddFolder()">
+    <h3 class="text-center text-3xl font-bold mb-6" style="padding-bottom: 20px">
+      Aggiungi cartella
+    </h3>
+    <mat-form-field class="w-full" style="padding-bottom: 20px" appearance="outline">
+      <mat-label>Nome Cartella</mat-label>
+      <input matInput type="text" placeholder="nome cartella" formControlName="folderName" />
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+    <div class="flex justify-end">
+      <button mat-button type="button" (click)="onCancel()">Annulla</button>
+      <button
+        mat-flat-button
+        color="primary"
+        class="button-color"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Aggiungi
+      </button>
+    </div>
+  </form>
+</div>

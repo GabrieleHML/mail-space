@@ -1,0 +1,66 @@
+<div class="container mx-auto px-4 py-2">
+  <mat-card class="profile-container mb-12">
+    <mat-card-title class="p-4">
+      <h3 class="m-0">Il mio account</h3>
+    </mat-card-title>
+    <mat-card-content class="profile-details p-4 pt-0">
+      <p class="mb-2"><strong>Username:</strong> {{ user()?.username }}</p>
+      <p class="mb-4"><strong>Email:</strong> {{ user()?.email }}</p>
+      <button
+        type="button"
+        (click)="openResetPwdDialog()"
+        class="change-password-link text-blue-500 hover:text-blue-700 hover:underline"
+      >
+        Modifica Password
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="profile-container" style="margin-top: 100px; margin-bottom: 100px">
+    <mat-card-title class="p-4">
+      <h3 class="m-0">Modifica le tue etichette</h3>
+    </mat-card-title>
+    <mat-card-content class="p-4 pt-0">
+      <mat-form-field class="chip-list w-full">
+        <mat-label>Etichette</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter labels">
+          @for (label of labels; track label) {
+            <mat-chip-row
+              (removed)="remove(label)"
+              [editable]="true"
+              (edited)="edit(label, $event)"
+              [aria-description]="'press enter to edit ' + label"
+            >
+              {{ label }}
+              <button matChipRemove [attr.aria-label]="'remove ' + label">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+          <input
+            placeholder="Nuova etichetta..."
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-grid>
+      </mat-form-field>
+      <mat-card-actions class="px-4 pb-4">
+        <button
+          mat-flat-button
+          color="primary"
+          class="button-color"
+          [disabled]="saving"
+          (click)="updateLabels()"
+        >
+          Salva configurazione
+        </button>
+      </mat-card-actions>
+      @if (saving) {
+        <p class="px-4 text-sm text-gray-600">Riclassificazione delle email in corso...</p>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

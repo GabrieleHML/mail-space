@@ -1,0 +1,365 @@
+/* Global styles (Tailwind utilities + Angular Material customizations) */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+.main-container {
+  margin-left: 10%;
+  margin-right: 10%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mail-viewer-container {
+  margin-left: 0;
+  margin-right: 10%;
+}
+
+.div-sopra {
+  margin-bottom: 120px;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+.div-sotto {
+  margin-top: 60px;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.max-w-350 {
+  max-width: 350px;
+}
+
+.mdc-notched-outline__notch {
+  border-right: none;
+}
+
+.my-card {
+  margin-top: 100px;
+  padding: 20px;
+}
+
+.select-field {
+  width: 150px;
+  margin-right: 16px;
+}
+
+.text-field {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.mat-expansion-panel {
+  margin-bottom: 16px;
+}
+
+/* Side panel */
+.left-space {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.remove-from-folder-button {
+  margin-left: auto;
+}
+
+.presentation-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.presentation-container h2 {
+  color: #333;
+}
+
+.presentation-container h3 {
+  color: #555;
+}
+
+.presentation-container p,
+.presentation-container ul {
+  color: #666;
+}
+
+.home-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.confirmed {
+  font-weight: bold;
+  color: green;
+}
+
+/* Profile page */
+.profile-container {
+  max-width: 100%;
+  margin-top: 48px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  color: #333;
+}
+
+.profile-details {
+  margin-top: 20px;
+}
+
+.profile-details p {
+  font-size: 18px;
+  color: #555;
+}
+
+.profile-details .confirmed {
+  color: green;
+}
+
+.change-password-link {
+  display: block;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.change-password-link:hover {
+  text-decoration: underline;
+}
+
+.chip-list {
+  width: 100%;
+}
+
+.mdc-button.button-color {
+  background-color: #7aa6c8 !important;
+  color: black !important;
+}
+
+.button-add {
+  color: black !important;
+}
+
+.hover-red:hover {
+  background-color: rgba(255, 0, 0, 0.3); /* light red */
+}
+
+/* Search bar */
+.search-field {
+  flex: auto;
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  margin-right: 85px;
+}
+
+.search-container .button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.search-bar {
+  width: 400px;
+  padding: 4px 0;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: calc(100% - 20px);
+  left: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  z-index: 1000;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.small-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  & > *[role='img'] {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+
+  .mat-mdc-button-touch-target {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+/* Folders in the side panel */
+
+/* Wrapper of each folder item */
+.folder-list-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-bottom: none;
+}
+
+/* The folder name takes almost the whole width */
+.folder-name {
+  flex: 1;
+  font-size: 1.4rem;
+  line-height: 1.4rem; /* keeps the text vertically centered */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Delete button, hidden until hover */
+.button-remove {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Smaller delete icon */
+.small-icon {
+  font-size: 16px; /* default is 24px */
+}
+
+/* Show the delete button when hovering a folder */
+.folder-list-item:hover .button-remove {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* ===== Selected folder (active-folder) ===== */
+/* Keep the Material highlight on the selected folder */
+.folder-list-item.active-folder {
+  background-color: rgba(224, 225, 254, 255); /* Material light-blue background */
+}
+
+/* The highlight stays while the folder is selected, not only on hover */
+.folder-list-item.active-folder .button-remove {
+  visibility: visible; /* the delete button stays visible on the selected folder */
+  opacity: 1;
+}
+
+/* Keep the standard Material focus ring */
+.folder-list-item:focus-within {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* No repeated border between the items of mat-nav-list */
+mat-nav-list {
+  width: 80%;
+  padding: 0;
+}
+
+mat-nav-list .mat-list-item {
+  border-bottom: none;
+}
+
+/* Labels assigned by Gemini, shown inside an opened e-mail */
+.email-labels {
+  display: block;
+  margin-bottom: 12px;
+}
+
+/*
+ * Typography of the Material 3 prebuilt theme up to Angular Material 18. Later prebuilt
+ * themes no longer style the `mat-typography` elements, so Tailwind's reset made all
+ * headings as small as the body text.
+ */
+.mat-typography {
+  font:
+    400 1rem / 1.5rem Roboto,
+    sans-serif;
+  letter-spacing: 0.031rem;
+}
+.mat-typography h1 {
+  font:
+    400 3.562rem / 4rem Roboto,
+    sans-serif;
+  letter-spacing: -0.016rem;
+  margin: 0 0 0.5em;
+}
+.mat-typography h2 {
+  font:
+    400 2.812rem / 3.25rem Roboto,
+    sans-serif;
+  margin: 0 0 0.5em;
+}
+.mat-typography h3 {
+  font:
+    400 2.25rem / 2.75rem Roboto,
+    sans-serif;
+  margin: 0 0 0.5em;
+}
+.mat-typography h4 {
+  font:
+    400 2rem / 2.5rem Roboto,
+    sans-serif;
+  margin: 0 0 0.5em;
+}
+.mat-typography h5 {
+  font:
+    400 1.75rem / 2.25rem Roboto,
+    sans-serif;
+  margin: 0 0 0.5em;
+}
+.mat-typography h6 {
+  font:
+    400 1.5rem / 2rem Roboto,
+    sans-serif;
+  margin: 0 0 0.5em;
+}
+.mat-typography p {
+  margin: 0 0 0.75em;
+}

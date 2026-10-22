@@ -1,0 +1,18 @@
+<div class="flex justify-center items-center h-full">
+  <form class="w-full max-w-sm" [formGroup]="form" (submit)="onLogin()">
+    <h2 class="text-center text-3xl font-bold mb-6">Accedi</h2>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" placeholder="Username" formControlName="username" />
+      <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Password" formControlName="password" />
+      <mat-icon matSuffix>vpn_key</mat-icon>
+    </mat-form-field>
+    <div class="flex justify-end">
+      <button mat-flat-button class="button-color" type="submit">Continua</button>
+    </div>
+  </form>
+</div>

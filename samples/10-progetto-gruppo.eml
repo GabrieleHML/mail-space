@@ -1,0 +1,23 @@
+From: Luca Ferri <luca.ferri@example.com>
+To: demo@example.com
+Subject: Idee per la prossima fase del progetto
+Date: Wed, 19 Feb 2025 21:05:00 +0100
+Message-ID: <sample-10@mail-space.example>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+Ciao a tutti,
+
+dopo la riunione di ieri ho messo per iscritto qualche idea per la
+prossima fase del progetto del corso:
+
+- spostare il back-end su container per semplificare il deploy;
+- aggiungere i test automatici prima della consegna;
+- dividere la relazione in capitoli e assegnarne uno a testa.
+
+Possiamo sentirci giovedì pomeriggio in aula studio per decidere?
+La consegna è fissata per il 15 marzo.
+
+A presto,
+Luca

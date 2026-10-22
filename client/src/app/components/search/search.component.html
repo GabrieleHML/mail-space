@@ -1,0 +1,53 @@
+<div class="search-container" style="position: relative">
+  <div class="search-bar">
+    <mat-form-field class="search-field" appearance="outline" [subscriptSizing]="'dynamic'">
+      <mat-label>Cerca</mat-label>
+      <div style="display: flex; align-items: center">
+        <input
+          matInput
+          placeholder="Inserisci il testo da cercare"
+          [(ngModel)]="searchText"
+          (keyup.enter)="onSearch()"
+          style="flex: 1; height: 32px"
+        />
+        <button
+          mat-icon-button
+          type="button"
+          class="small-icon-button"
+          (click)="toggleDropdown()"
+          aria-label="Opzioni avanzate"
+        >
+          <mat-icon>tune</mat-icon>
+        </button>
+      </div>
+    </mat-form-field>
+  </div>
+
+  @if (dropdownOpen) {
+    <div class="custom-dropdown mt-4">
+      <mat-form-field appearance="fill">
+        <mat-label>Mittente</mat-label>
+        <input matInput [(ngModel)]="sender" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Oggetto</mat-label>
+        <input matInput [(ngModel)]="subject" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Contiene parole</mat-label>
+        <input matInput [(ngModel)]="words" placeholder="es. treno, hotel" />
+      </mat-form-field>
+      <div class="button-container">
+        <button
+          mat-flat-button
+          (click)="onAdvancedSearch()"
+          type="submit"
+          color="primary"
+          class="button-color"
+        >
+          Cerca
+        </button>
+      </div>
+    </div>
+  }
+</div>
